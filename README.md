@@ -1,6 +1,6 @@
 # Mine-ChatCorrect
 
-Mine-ChatCorrect is a client-side NeoForge and Fabric mod for Minecraft 1.21.1 that provides spell-check assistance while typing in chat.
+Mine-ChatCorrect is a client-side Fabric mod for Minecraft 26.2 that provides spell-check assistance while typing in chat.
 
 It highlights likely misspelled words in the chat input, offers replacement suggestions, allows manual replacement text, supports adding accepted custom words, and can import external dictionary files for broader language support. The mod is intended to help players write clearer chat messages without requiring any server-side installation.
 
@@ -96,55 +96,49 @@ Behavior:
 
 Mine-ChatCorrect is licensed under the MIT License. See [`LICENSE`](LICENSE).
 
-The MIT License applies to Mine-ChatCorrect’s own source code, project configuration, and original resources. It does not grant rights to Minecraft, NeoForge, third-party dictionaries, external dictionary archives, or any other third-party content.
+The MIT License applies to Mine-ChatCorrect’s own source code, project configuration, and original resources. It does not grant rights to Minecraft, Fabric, third-party dictionaries, external dictionary archives, or any other third-party content.
 
-Mine-ChatCorrect is an unofficial Minecraft mod and is not affiliated with Mojang, Microsoft, NeoForge, or Fabric.
+Mine-ChatCorrect is an unofficial Minecraft mod and is not affiliated with Mojang, Microsoft, or Fabric.
 
-## Build output
+## Build
 
-Current public release: [0.1.3](https://github.com/KaikiDaemon/Mine-ChatCorrect/releases/tag/v0.1.3) (NeoForge and Fabric)
+Requires a full JDK 25 (not a JRE). Point `JAVA_HOME` and the IDE's Gradle JVM setting to that JDK. The launcher downloads Gradle 9.5.1 on first use.
 
-Current release/build: `0.1.3`
+```sh
+./gradlew build
+```
 
-Release downloads:
+This builds the Fabric mod and runs the dictionary and spell-checking tests.
+The distributable JAR is `build/libs/mine_chatcorrect-fabric-0.1.3.jar`.
+Minecraft 26.2 uses unobfuscated names, so no remapping step is needed.
 
-- NeoForge: `https://github.com/KaikiDaemon/Mine-ChatCorrect/releases/download/v0.1.3/mine_chatcorrect-0.1.3.jar`
-- Fabric: `https://github.com/KaikiDaemon/Mine-ChatCorrect/releases/download/v0.1.3/mine_chatcorrect-fabric-0.1.3.jar`
+To launch a development client:
 
-Running `./gradlew build` builds both loader variants.
-
-- NeoForge: `build/libs/mine_chatcorrect-0.1.3.jar`
-- Fabric: `fabric/build/libs/mine_chatcorrect-fabric-0.1.3.jar`
-
-The Fabric artifact is the remapped distributable JAR produced by Fabric Loom, not its development JAR.
+```sh
+./gradlew runClient
+```
 
 ## Compatibility
 
-- Minecraft: `1.21.1`
-- NeoForge: tested with `21.1.172`
-- Fabric Loader: tested with `0.16.14`
-- Fabric API: tested with `0.116.13+1.21.1`
-- Java: `21`
+- Minecraft: `26.2`
+- Fabric Loader: `0.19.5` or newer
+- Fabric API: `0.158.0+26.2` or newer for Minecraft 26.2
+- Java: `25`
 
 Mine-ChatCorrect is a client-side mod. Servers and other players do not need to install it.
 
 ## Installation
 
-1. Install Minecraft `1.21.1`.
-2. Install either a compatible NeoForge `1.21.1` client, or Fabric Loader plus Fabric API for `1.21.1`.
-3. Download the release jar from GitHub Releases, or build locally with `./gradlew build`.
-4. Place the JAR matching your loader in your Minecraft `mods` folder.
-5. Launch Minecraft with the matching NeoForge or Fabric profile.
+1. Install Minecraft `26.2` with Fabric Loader.
+2. Install Fabric API for Minecraft `26.2`.
+3. Build locally with `./gradlew build`.
+4. Place `build/libs/mine_chatcorrect-fabric-0.1.3.jar` in your Minecraft `mods` folder.
+5. Launch the Fabric profile.
+
+The previously published 0.1.3 release targets Minecraft 1.21.1; use a new local build for 26.2.
 
 Typical mods folder locations:
 
 - Linux: `~/.minecraft/mods`
 - Windows: `%APPDATA%\.minecraft\mods`
 - macOS: `~/Library/Application Support/minecraft/mods`
-
-Local build artifacts are generated at:
-
-```text
-build/libs/mine_chatcorrect-0.1.3.jar
-fabric/build/libs/mine_chatcorrect-fabric-0.1.3.jar
-```

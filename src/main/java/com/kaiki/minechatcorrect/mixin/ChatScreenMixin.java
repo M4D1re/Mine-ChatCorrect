@@ -2,7 +2,7 @@ package com.kaiki.minechatcorrect.mixin;
 
 import com.kaiki.minechatcorrect.client.ChatActionBar;
 import com.kaiki.minechatcorrect.client.ChatSpellOverlay;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.ChatScreen;
 import net.minecraft.client.gui.screens.Screen;
@@ -25,13 +25,13 @@ public abstract class ChatScreenMixin {
         this.input.setFocused(true);
     }
 
-    @Inject(method = "render", at = @At("HEAD"))
-    private void mineChatCorrect$updateButtons(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick, CallbackInfo callbackInfo) {
+    @Inject(method = "extractRenderState", at = @At("HEAD"))
+    private void mineChatCorrect$updateButtons(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick, CallbackInfo callbackInfo) {
         ChatActionBar.update(this.input);
     }
 
-    @Inject(method = "render", at = @At("TAIL"))
-    private void mineChatCorrect$renderSpellOverlay(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick, CallbackInfo callbackInfo) {
+    @Inject(method = "extractRenderState", at = @At("TAIL"))
+    private void mineChatCorrect$renderSpellOverlay(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick, CallbackInfo callbackInfo) {
         ChatSpellOverlay.render(guiGraphics, this.input);
     }
 }

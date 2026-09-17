@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 set -eu
 
-GRADLE_VERSION="8.14"
+GRADLE_VERSION="9.5.1"
 PROJECT_DIR="$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)"
 GRADLE_HOME="$PROJECT_DIR/.gradle/local/gradle-$GRADLE_VERSION"
 GRADLE_BIN="$GRADLE_HOME/bin/gradle"

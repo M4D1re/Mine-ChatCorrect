@@ -4,6 +4,16 @@ All notable changes to Mine-ChatCorrect will be documented in this file.
 
 ## [Unreleased]
 
+### Changed
+
+- Ported the Fabric mod to Minecraft `26.2` and Java `25`.
+- Updated screen rendering, mouse input, chat mixins, and key mapping registration for the new client API.
+- Consolidated Fabric sources into the root project; `./gradlew build` now produces a single Fabric JAR.
+
+### Removed
+
+- Removed the NeoForge entry point, dependencies, metadata, and build configuration.
+
 ## [0.1.3] - 2026-07-14
 
 ### Notes

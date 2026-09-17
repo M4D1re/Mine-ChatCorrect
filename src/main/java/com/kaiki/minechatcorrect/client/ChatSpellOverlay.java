@@ -5,7 +5,7 @@ import com.kaiki.minechatcorrect.mixin.EditBoxAccessor;
 import com.kaiki.minechatcorrect.spell.MisspelledWord;
 import com.kaiki.minechatcorrect.spell.SpellChecker;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.EditBox;
 
 import java.util.List;
@@ -33,7 +33,7 @@ public final class ChatSpellOverlay {
      * exposes that scroll offset so underline positions remain aligned with the
      * visible text rather than the full unscrolled string.</p>
      */
-    public static void render(GuiGraphics guiGraphics, EditBox input) {
+    public static void render(GuiGraphicsExtractor guiGraphics, EditBox input) {
         if (input == null || !input.isVisible()) {
             return;
         }

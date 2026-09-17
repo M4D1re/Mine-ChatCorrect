@@ -1,6 +1,6 @@
 {
   "mine_chatcorrect.message.loaded": "Mine-ChatCorrect loaded",
-  "key.categories.mine_chatcorrect": "Mine-ChatCorrect",
+  "key.category.mine_chatcorrect.main": "Mine-ChatCorrect",
   "key.mine_chatcorrect.toggle": "Toggle chat spell check",
   "key.mine_chatcorrect.open_settings": "Open Mine-ChatCorrect settings"
 }

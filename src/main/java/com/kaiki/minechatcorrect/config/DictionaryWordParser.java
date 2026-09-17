@@ -7,7 +7,7 @@ import java.util.Set;
 /**
  * Pure dictionary word parsing and normalization helpers.
  *
- * <p>This class intentionally has no Minecraft or NeoForge dependencies so the
+ * <p>This class intentionally has no Minecraft or Fabric dependencies so the
  * import behavior can be validated with fast unit tests.</p>
  */
 public final class DictionaryWordParser {

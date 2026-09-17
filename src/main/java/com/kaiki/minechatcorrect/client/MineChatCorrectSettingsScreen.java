@@ -3,9 +3,10 @@ package com.kaiki.minechatcorrect.client;
 import com.kaiki.minechatcorrect.MineChatCorrectClient;
 import com.kaiki.minechatcorrect.config.DictionaryManager;
 import com.kaiki.minechatcorrect.spell.SpellChecker;
-import net.minecraft.Util;
+import net.minecraft.util.Util;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.input.MouseButtonEvent;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.Screen;
@@ -128,7 +129,7 @@ public final class MineChatCorrectSettingsScreen extends Screen {
                 .bounds(center + 40, y, 70, 20)
                 .build());
 
-        addRenderableWidget(Button.builder(Component.literal("Edit list"), button -> this.minecraft.setScreen(new AdditionalWordsScreen(this)))
+        addRenderableWidget(Button.builder(Component.literal("Edit list"), button -> this.minecraft.gui.setScreen(new AdditionalWordsScreen(this)))
                 .bounds(center + 115, y, 40, 20)
                 .build());
 
@@ -146,7 +147,7 @@ public final class MineChatCorrectSettingsScreen extends Screen {
                 .bounds(center - 155, y, 150, 20)
                 .build());
 
-        addRenderableWidget(Button.builder(Component.literal("Done"), button -> this.minecraft.setScreen(parent))
+        addRenderableWidget(Button.builder(Component.literal("Done"), button -> this.minecraft.gui.setScreen(parent))
                 .bounds(center + 5, y, 150, 20)
                 .build());
 
@@ -157,20 +158,19 @@ public final class MineChatCorrectSettingsScreen extends Screen {
      * Draws widgets first, then title/status above them so text stays readable.
      */
     @Override
-    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-        this.renderBackground(guiGraphics, mouseX, mouseY, partialTick);
-        super.render(guiGraphics, mouseX, mouseY, partialTick);
+    public void extractRenderState(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
+        super.extractRenderState(guiGraphics, mouseX, mouseY, partialTick);
 
-        guiGraphics.drawCenteredString(this.font, this.title, this.width / 2, 12, 0xFFFFFFFF);
+        guiGraphics.centeredText(this.font, this.title, this.width / 2, 12, 0xFFFFFFFF);
 
         renderDictionaryList(guiGraphics);
 
         if (!status.isBlank()) {
-            guiGraphics.drawCenteredString(this.font, truncate(status, 72), this.width / 2, 24, 0xFFFFFF55);
+            guiGraphics.centeredText(this.font, truncate(status, 72), this.width / 2, 24, 0xFFFFFF55);
         }
     }
 
-    private void renderDictionaryList(GuiGraphics guiGraphics) {
+    private void renderDictionaryList(GuiGraphicsExtractor guiGraphics) {
         List<DictionaryManager.ExternalDictionary> dictionaries = dictionaries();
         if (dictionaries.isEmpty()) {
             return;
@@ -188,22 +188,22 @@ public final class MineChatCorrectSettingsScreen extends Screen {
             String prefix = selected ? "> " : "  ";
             String state = dictionary.enabled() ? "enabled" : "disabled";
             String text = prefix + (index + 1) + "/" + dictionaries.size() + " " + state + " - " + dictionary.name();
-            guiGraphics.drawString(this.font, truncate(text, 56), x, y + row * DICTIONARY_LIST_ROW_HEIGHT, selected ? 0xFFFFFF55 : 0xFFAAAAAA);
+            guiGraphics.text(this.font, truncate(text, 56), x, y + row * DICTIONARY_LIST_ROW_HEIGHT, selected ? 0xFFFFFF55 : 0xFFAAAAAA);
         }
 
         if (dictionaries.size() > maxVisible) {
-            guiGraphics.drawString(this.font, "Click a row or use < / > to select", x, y + maxVisible * DICTIONARY_LIST_ROW_HEIGHT, 0xFF888888);
+            guiGraphics.text(this.font, "Click a row or use < / > to select", x, y + maxVisible * DICTIONARY_LIST_ROW_HEIGHT, 0xFF888888);
         }
     }
 
 
     @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        if (selectDictionaryRow(mouseX, mouseY)) {
+    public boolean mouseClicked(MouseButtonEvent event, boolean doubleClick) {
+        if (selectDictionaryRow(event.x(), event.y())) {
             return true;
         }
 
-        return super.mouseClicked(mouseX, mouseY, button);
+        return super.mouseClicked(event, doubleClick);
     }
 
     private boolean selectDictionaryRow(double mouseX, double mouseY) {
@@ -229,7 +229,7 @@ public final class MineChatCorrectSettingsScreen extends Screen {
 
     @Override
     public void onClose() {
-        Minecraft.getInstance().setScreen(parent);
+        Minecraft.getInstance().gui.setScreen(parent);
     }
 
     /**

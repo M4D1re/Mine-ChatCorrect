@@ -6,7 +6,7 @@ import com.kaiki.minechatcorrect.spell.SpellChecker;
 import java.nio.file.Path;
 
 /**
- * Loader-neutral client state shared by the NeoForge and Fabric entry points.
+ * Client state initialized by the Fabric entry point.
  */
 public final class MineChatCorrectClient {
     public static final String MOD_ID = "mine_chatcorrect";
@@ -19,7 +19,7 @@ public final class MineChatCorrectClient {
 
     /**
      * Initializes client state beneath the loader's base configuration directory.
-     * The loader-specific entry point must pass its config root, not a mod-specific child.
+     * The entry point must pass Fabric's config root, not a mod-specific child.
      */
     public static void initialize(Path configRoot) {
         Path configDir = configRoot.resolve(MOD_ID);

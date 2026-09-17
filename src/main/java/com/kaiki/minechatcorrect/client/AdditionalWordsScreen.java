@@ -3,7 +3,7 @@ package com.kaiki.minechatcorrect.client;
 import com.kaiki.minechatcorrect.MineChatCorrectClient;
 import com.kaiki.minechatcorrect.spell.SpellChecker;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.Screen;
@@ -87,7 +87,7 @@ public final class AdditionalWordsScreen extends Screen {
                     .build());
         }
 
-        addRenderableWidget(Button.builder(Component.literal("Back"), button -> this.minecraft.setScreen(parent))
+        addRenderableWidget(Button.builder(Component.literal("Back"), button -> this.minecraft.gui.setScreen(parent))
                 .bounds(center - 155, this.height - 28, 150, 20)
                 .build());
 
@@ -122,20 +122,19 @@ public final class AdditionalWordsScreen extends Screen {
      * Draw widgets first, then draw title/status above them for readability.
      */
     @Override
-    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-        this.renderBackground(guiGraphics, mouseX, mouseY, partialTick);
-        super.render(guiGraphics, mouseX, mouseY, partialTick);
+    public void extractRenderState(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
+        super.extractRenderState(guiGraphics, mouseX, mouseY, partialTick);
 
-        guiGraphics.drawCenteredString(this.font, this.title, this.width / 2, 12, 0xFFFFFFFF);
+        guiGraphics.centeredText(this.font, this.title, this.width / 2, 12, 0xFFFFFFFF);
 
         if (!status.isBlank()) {
-            guiGraphics.drawCenteredString(this.font, status, this.width / 2, this.height - 42, 0xFFFFFF55);
+            guiGraphics.centeredText(this.font, status, this.width / 2, this.height - 42, 0xFFFFFF55);
         }
     }
 
     @Override
     public void onClose() {
-        Minecraft.getInstance().setScreen(parent);
+        Minecraft.getInstance().gui.setScreen(parent);
     }
 
     /**
