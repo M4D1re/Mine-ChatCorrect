@@ -123,6 +123,7 @@ public final class DictionaryManager {
                 }
             }
 
+
             ExternalDictionary dictionary = loadDictionaryFromDirectory(importTarget);
             if (dictionary == null || dictionary.words().isEmpty()) {
                 throw new IOException("No usable dictionary words found. Try a .dic, word-list, .zip, .tar.gz, or .tar.bz2 StarDict archive.");

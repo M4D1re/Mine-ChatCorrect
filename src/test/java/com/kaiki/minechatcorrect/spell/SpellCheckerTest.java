@@ -10,6 +10,52 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class SpellCheckerTest {
+
+    @Test
+    void findsRussianMisspellings() {
+        SpellChecker checker = new SpellChecker(Set.of("привет", "мир"));
+
+        List<MisspelledWord> misspellings =
+                checker.findMisspellings("превет мир");
+
+        assertEquals(
+                List.of(new MisspelledWord("превет", 0, 6)),
+                misspellings
+        );
+        assertEquals("привет", checker.bestSuggestionFor("превет"));
+    }
+
+    @Test
+    void recognizesRussianCaseAndYo() {
+        SpellChecker checker = new SpellChecker(Set.of("привет", "ёжик"));
+
+        assertTrue(checker.findMisspellings("ПРИВЕТ Ёжик").isEmpty());
+
+        assertEquals(
+                List.of(new MisspelledWord("ёжк", 0, 3)),
+                checker.findMisspellings("ёжк")
+        );
+        assertEquals("ёжик", checker.bestSuggestionFor("ёжк"));
+    }
+
+    @Test
+    void checksMixedRussianAndEnglishText() {
+        SpellChecker checker =
+                new SpellChecker(Set.of("привет", "мир", "hello", "world"));
+
+        assertTrue(checker.findMisspellings("Привет hello мир world").isEmpty());
+
+        assertEquals(
+                List.of(
+                        new MisspelledWord("превет", 0, 6),
+                        new MisspelledWord("wurld", 7, 12)
+                ),
+                checker.findMisspellings("превет wurld")
+        );
+
+        assertTrue(checker.findMisspellings("/msg Alex превет").isEmpty());
+    }
+
     @Test
     void findsMisspellingsWhileIgnoringCommandsAndUrls() {
         SpellChecker checker = new SpellChecker(Set.of("hello", "world", "minecraft", "server", "visit"));
