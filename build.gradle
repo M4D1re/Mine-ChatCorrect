@@ -45,4 +45,5 @@ tasks.named('processResources') {
 
 tasks.named('test') {
     useJUnitPlatform()
+    maxHeapSize = '1G'
 }

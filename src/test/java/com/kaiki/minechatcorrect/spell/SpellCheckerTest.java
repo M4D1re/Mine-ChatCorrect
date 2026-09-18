@@ -116,4 +116,15 @@ class SpellCheckerTest {
         assertTrue(checker.suggestionsFor("превет").contains("привет"));
     }
 
+    @Test
+    void recognizesRussianWordForms(@TempDir Path configDir) {
+        SpellChecker checker = new SpellChecker(configDir);
+
+        List<MisspelledWord> errors = checker.findMisspellings(
+                "дом дома домами играть играет играли"
+        );
+
+        assertTrue(errors.isEmpty(), () -> "Не распознаны словоформы: " + errors);
+    }
+
 }

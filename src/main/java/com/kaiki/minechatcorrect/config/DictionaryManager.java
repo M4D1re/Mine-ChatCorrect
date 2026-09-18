@@ -23,6 +23,9 @@ import java.util.zip.GZIPInputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
 public final class DictionaryManager {
     private static final Logger LOGGER = Logger.getLogger(DictionaryManager.class.getName());
 
@@ -701,19 +704,33 @@ public final class DictionaryManager {
                 );
             }
 
-            String content = new String(
-                    input.readAllBytes(),
-                    StandardCharsets.UTF_8
-            );
+            boolean hasWords = false;
 
-            Set<String> words = DictionaryWordParser.parseDictionaryWords(content);
-            if (words.isEmpty()) {
+            try (var reader = new BufferedReader(
+                    new InputStreamReader(input, StandardCharsets.UTF_8))) {
+                String line;
+
+                while ((line = reader.readLine()) != null) {
+                    String trimmed = line.trim();
+                    if (trimmed.isEmpty() || trimmed.startsWith("#")) {
+                        continue;
+                    }
+
+                    String word =
+                            DictionaryWordParser.normalizeDictionaryWord(trimmed);
+
+                    if (!word.isEmpty()) {
+                        builtInWords.add(word);
+                        hasWords = true;
+                    }
+                }
+            }
+
+            if (!hasWords) {
                 throw new IllegalStateException(
                         "Bundled dictionary is empty: " + resourcePath
                 );
             }
-
-            builtInWords.addAll(words);
         } catch (IOException exception) {
             throw new IllegalStateException(
                     "Could not read bundled dictionary: " + resourcePath,

@@ -1,0 +1,8 @@
+Source: https://github.com/danakt/russian-words
+Commit: d68c007fe9260d2d40ce413f13f77335c5af1e62
+Original file: russian.txt
+Original encoding: Windows-1251
+License: MIT; see ru_ru.LICENSE.txt
+Processing: UTF-8, lowercase, Russian letters only, minimum 2 letters, deduplicated, sorted.
+Includes the project's initial Russian word list.
+Resulting entries: 1525391
