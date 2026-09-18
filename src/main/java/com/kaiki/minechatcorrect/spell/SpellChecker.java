@@ -13,7 +13,10 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+
 public final class SpellChecker {
+
+
     private static final Pattern WORD_PATTERN =
             Pattern.compile("[A-Za-zА-Яа-яЁё][A-Za-zА-Яа-яЁё']{2,}");
     private static final Pattern URL_PATTERN = Pattern.compile("(?i)(https?://\\S+|www\\.\\S+|\\b[a-z0-9.-]+\\.[a-z]{2,}\\S*)");

@@ -46,6 +46,7 @@ public final class DictionaryManager {
         this.importDir = dictionaryDir.resolve("imports");
 
         loadBuiltInWords();
+        loadBundledDictionary("/assets/mine_chatcorrect/dictionaries/ru_ru.txt");
         loadMinecraftWords();
         load();
     }
@@ -689,6 +690,35 @@ public final class DictionaryManager {
     private void loadMinecraftWords() {
         for (String word : builtInMinecraftWords()) {
             builtInWords.add(word);
+        }
+    }
+
+    private void loadBundledDictionary(String resourcePath) {
+        try (var input = DictionaryManager.class.getResourceAsStream(resourcePath)) {
+            if (input == null) {
+                throw new IllegalStateException(
+                        "Bundled dictionary not found: " + resourcePath
+                );
+            }
+
+            String content = new String(
+                    input.readAllBytes(),
+                    StandardCharsets.UTF_8
+            );
+
+            Set<String> words = DictionaryWordParser.parseDictionaryWords(content);
+            if (words.isEmpty()) {
+                throw new IllegalStateException(
+                        "Bundled dictionary is empty: " + resourcePath
+                );
+            }
+
+            builtInWords.addAll(words);
+        } catch (IOException exception) {
+            throw new IllegalStateException(
+                    "Could not read bundled dictionary: " + resourcePath,
+                    exception
+            );
         }
     }
 

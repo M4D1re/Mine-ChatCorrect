@@ -9,6 +9,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.junit.jupiter.api.io.TempDir;
+import java.nio.file.Path;
+
 class SpellCheckerTest {
 
     @Test
@@ -86,4 +89,31 @@ class SpellCheckerTest {
         assertTrue(checker.findMisspellings("Kaiki uses ChatCorrect").isEmpty());
         assertEquals(List.of("unknownword"), checker.findMisspellings("unknownword").stream().map(MisspelledWord::word).toList());
     }
+
+    @Test
+    void loadsBundledRussianDictionary(@TempDir Path configDir) {
+        SpellChecker checker = new SpellChecker(configDir);
+
+        assertTrue(
+                checker.findMisspellings("Привет мир hello world Ёжик").isEmpty()
+        );
+
+        assertEquals(
+                List.of(new MisspelledWord("превет", 0, 6)),
+                checker.findMisspellings("превет мир")
+        );
+
+        assertTrue(checker.suggestionsFor("превет").contains("привет"));
+    }
+
+    @Test
+    void keepsBundledRussianDictionaryAfterReload(@TempDir Path configDir) {
+        SpellChecker checker = new SpellChecker(configDir);
+
+        checker.reloadDictionaries();
+
+        assertTrue(checker.findMisspellings("Привет мир Ёжик").isEmpty());
+        assertTrue(checker.suggestionsFor("превет").contains("привет"));
+    }
+
 }
